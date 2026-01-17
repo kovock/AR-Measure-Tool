@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\josue\\My project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josue\\My project\\Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josue\\My project\\Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SceneObjectGuid.cs",
+              "DocumentMoniker": "C:\\Users\\josue\\My project\\Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs",
+              "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs",
+              "ToolTip": "C:\\Users\\josue\\My project\\Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs",
+              "RelativeToolTip": "Library\\PackageCache\\com.unity.learn.iet-framework@104e397c56f7\\Runtime\\SceneObjectGuid.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T14:59:38.739Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MedidorMestre.cs",
+              "DocumentMoniker": "C:\\Users\\josue\\My project\\Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs",
+              "RelativeDocumentMoniker": "Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs",
+              "ToolTip": "C:\\Users\\josue\\My project\\Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs",
+              "RelativeToolTip": "Assets\\MobileARTemplateAssets\\Scripts\\MedidorMestre.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAQwGkAAAB7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T02:15:42.829Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
