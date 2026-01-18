@@ -1,0 +1,13 @@
+# Ignora pastas pesadas do Unity em qualquer subpasta
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Ll]ogs/
+
+# Ignora arquivos de solução e IDE
+*.csproj
+*.sln
+*.vsconfig
+.vs/
+.idea/
