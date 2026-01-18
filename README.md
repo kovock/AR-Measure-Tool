@@ -3,10 +3,10 @@ Measuring AR é um aplicativo para o sistema Android que realiza medições de d
 
 
 
+## Visão Geral
 
-**Visão Geral**  
 O objetivo deste projeto é desenvolver uma aplicação para o sistema Android baseada em Realidade Aumentada, capaz de realizar medições de distância em tempo real em ambientes reais. A proposta do trabalho é aplicar, de forma prática, os conceitos estudados na disciplina de Computação Gráfica, incluindo rastreamento espacial, detecção de superfícies e interação entre o usuário e o ambiente.  
-**Funcionalidades do aplicativo:**
+## Funcionalidades do aplicativo
 
 * Detecção de superfícies planas no ambiente real por meio da câmera do dispositivo.  
 * Posicionamento interativo de pontos de medição utilizando toques na tela.  
@@ -15,7 +15,7 @@ O objetivo deste projeto é desenvolver uma aplicação para o sistema Android b
 * Possibilidade de realizar múltiplas medições de forma consecutiva.  
 * Interação intuitiva entre o usuário e o ambiente em Realidade Aumentada.
 
-**Tecnologias Utilizadas**  
+## Tecnologias Utilizadas
 **Engine Unity 6**: responsável pela criação do ambiente gráfico e pela integração dos elementos de Realidade Aumentada
 
 **AR Foundation**: utilizado como camada de abstração para funcionalidades de AR
@@ -24,7 +24,7 @@ O objetivo deste projeto é desenvolver uma aplicação para o sistema Android b
 
 **Linguagem de Programação C\#**: utilizada para implementação da lógica do aplicativo; e o sistema operacional Android, plataforma alvo da aplicação.
 
-**Guia de Instalação**
+## Guia de Instalação
 
 **Opção A: Compilar o Código**
 
@@ -34,16 +34,23 @@ O objetivo deste projeto é desenvolver uma aplicação para o sistema Android b
 4. Abrir o Unity Hub e adicionar a pasta do projeto “MedidorAR”  
 5. Abra o projeto e aguarde carregar.  
 6. Com o projeto aberto faça o passo a passo a seguir:  
-   1. Para habilitar a cena,Vá em “Assets” clique em “Scenes” e de um clique duplo em “CenaMedicaoAr” o 
+   1. Para habilitar a cena, vá em “Assets” clique em “Scenes” e de um clique duplo em "CenaMedicaoAr", como na imagen abaixo:
+<img width="1533" height="773" alt="Captura de tela 2026-01-18 145358" src="https://github.com/user-attachments/assets/021588e2-c8da-4262-873f-d9bc54a9a5b4" />
 
-   2. Para executar a aplicação vamos acessar as configurações de Build Profiles e selecionar a plataforma Android. Clique em File depois em Build Profiles.  
+   2. Para executar a aplicação vamos acessar as configurações de Build Profiles e selecionar a plataforma Android.  
+<img width="1075" height="799" alt="Captura de tela 2026-01-18 155056" src="https://github.com/user-attachments/assets/7e21d367-3588-41f4-abb3-955a6ef42d97" />
+
    3. Clique em “Android” e depois clique em “Switch Platform” para fazer a mudança.  
+<img width="1347" height="703" alt="Captura de tela 2026-01-18 155344" src="https://github.com/user-attachments/assets/ed551d53-258c-4afe-be8e-c519ad5acaa2" />
+
    4. Conecte um dispositivo Android ao computador via USB.  
    5. Ative o Modo Desenvolvedor e a Depuração USB no dispositivo Android.  
    6. Clique em Run Device e procure pelo seu dispositivo android, caso não encontre clique em Refresh.
+<img width="1337" height="706" alt="Captura de tela 2026-01-18 160434" src="https://github.com/user-attachments/assets/85fd0e57-6ae6-43ab-904d-3e836904d4c8" />
 
-7. Para executar a aplicação clique em “file” e depois em “Build and Run” e Salve o Apk em uma pasta da sua preferência.  
- 
+8. Para executar a aplicação clique em “file” e depois em “Build and Run” e Salve o Apk em uma pasta da sua preferência.  
+ <img width="1068" height="419" alt="Captura de tela 2026-01-18 161030" src="https://github.com/user-attachments/assets/d741b86a-51fe-4518-9340-fcabe1cc3b05" />
+
 
 
    
@@ -56,7 +63,7 @@ O objetivo deste projeto é desenvolver uma aplicação para o sistema Android b
 4. Abra o aplicativo e dê as permissões para utilização da câmera.  
 5. Teste o Aplicativo
 
-**Como Usar o Aplicativo**
+## Como Usar o Aplicativo
 
 1. Abra o aplicativo.  
 2. Conceda as permissões de acesso à câmera quando solicitado.  
