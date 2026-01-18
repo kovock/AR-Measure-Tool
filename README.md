@@ -1,6 +1,8 @@
-*📏Measuring AR \- Aplicativo de AR para Medição de Distância
-
+# 📏Measuring AR - Aplicativo de AR para Medição de Distância
 Measuring AR é um aplicativo para o sistema Android que realiza medições de distância em tempo real por meio de Realidade Aumentada. A aplicação foi desenvolvida utilizando Unity 6, AR Foundation e ARCore.
+
+
+
 
 **Visão Geral**  
 O objetivo deste projeto é desenvolver uma aplicação para o sistema Android baseada em Realidade Aumentada, capaz de realizar medições de distância em tempo real em ambientes reais. A proposta do trabalho é aplicar, de forma prática, os conceitos estudados na disciplina de Computação Gráfica, incluindo rastreamento espacial, detecção de superfícies e interação entre o usuário e o ambiente.  
