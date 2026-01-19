@@ -63,7 +63,7 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
-        // --- FUNÇÕES DE INTERFACE MANTIDAS ---
+        // --- FUNÇÕES DE INTERFACE  ---
 
         public void ShowHideModal()
         {
@@ -114,7 +114,7 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
-        // --- GERENCIAMENTO DE PLANOS (MANTIDO PARA O DEBUG FUNCIONAR) ---
+        // --- GERENCIAMENTO DE PLANOS  ---
 
         void OnPlaneChanged(ARTrackablesChangedEventArgs<ARPlane> eventArgs)
         {
@@ -139,6 +139,6 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
-        // Funções de Spawn e Delete foram removidas.
+        
     }
 }

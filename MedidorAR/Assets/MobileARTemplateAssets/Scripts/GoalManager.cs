@@ -8,7 +8,7 @@ namespace UnityEngine.XR.Templates.AR
 {
     public class GoalManager : MonoBehaviour
     {
-        // Enum mantido apenas para evitar erros de referência em outros scripts
+        
         public enum OnboardingGoals { Empty, FindSurfaces, TapSurface, Hints, Scale }
 
         [Serializable]
@@ -37,13 +37,13 @@ namespace UnityEngine.XR.Templates.AR
         [SerializeField]
         ARTemplateMenuManager m_MenuManager;
 
-        // Mantendo as propriedades públicas para não quebrar o MenuManager
+       
         public ObjectSpawner objectSpawner { get => m_ObjectSpawner; set => m_ObjectSpawner = value; }
         public ARTemplateMenuManager menuManager { get => m_MenuManager; set => m_MenuManager = value; }
 
         void Start()
         {
-            // O jogo começa com o Greeting Prompt ativo e o resto desligado
+            
             if (m_GreetingPrompt != null)
                 m_GreetingPrompt.SetActive(true);
 
@@ -74,7 +74,7 @@ namespace UnityEngine.XR.Templates.AR
             if (m_MenuManager != null)
                 m_MenuManager.enabled = true;
 
-            // Desativa qualquer objeto de "passo a passo" (setas, textos de ajuda)
+           
             foreach (var step in m_StepList)
             {
                 if (step.stepObject != null)
@@ -82,7 +82,6 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
-        // Métodos de tutorial limpos para não interferirem na sua medição
         void Update() { }
         void CompleteGoal() { }
         public void ForceCompleteGoal() { }

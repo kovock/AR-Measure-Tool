@@ -11,7 +11,7 @@ public class MeasurementController : MonoBehaviour
 {
     [Header("Prefabs e Configurações")]
     [SerializeField] private GameObject measurementPointPrefab;
-    [SerializeField] private GameObject linePrefab; // Recomendo um prefab com LineRenderer e o script de texto
+    [SerializeField] private GameObject linePrefab; 
     [SerializeField] private float measurementFactor = 100f;
     [SerializeField] private Vector3 offsetMeasurement = new Vector3(0, 0.05f, 0);
 
