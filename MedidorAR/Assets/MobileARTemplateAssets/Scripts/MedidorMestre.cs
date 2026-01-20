@@ -9,120 +9,196 @@ using UnityEngine.EventSystems;
 
 public class MeasurementController : MonoBehaviour
 {
+    public enum MeasurementMode { Distancia, Area }
+
+    [Header("Configuração de Modo")]
+    [SerializeField] private MeasurementMode currentMode = MeasurementMode.Distancia;
+
     [Header("Prefabs e Configurações")]
     [SerializeField] private GameObject measurementPointPrefab;
-    [SerializeField] private GameObject linePrefab; 
+    [SerializeField] private GameObject linePrefab; // Prefab com LineRenderer e TextMeshPro
     [SerializeField] private float measurementFactor = 100f;
-    [SerializeField] private Vector3 offsetMeasurement = new Vector3(0, 0.05f, 0);
+    [SerializeField] private Vector3 offsetMeasurement = new Vector3(0, 0.08f, 0);
 
-    [Header("UI")]
+    [Header("Interface (UI)")]
     [SerializeField] private Button clearButton;
+    [SerializeField] private Button distanceModeButton;
+    [SerializeField] private Button areaModeButton;
+    [SerializeField] private TextMeshProUGUI modeIndicatorText;
 
     private ARRaycastManager raycastManager;
-    private GameObject currentStartPoint;
-    private GameObject currentEndPoint;
-    private LineRenderer currentLine;
-    private TextMeshPro currentText;
-
-    // Armazenamento para deletar depois
-    private List<GameObject> allObjects = new List<GameObject>();
+    private Camera mainCamera;
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    private List<GameObject> allObjects = new List<GameObject>();
+
+    // Variáveis do Modo Distância (Régua)
+    private GameObject distStartPoint, distEndPoint;
+    private LineRenderer distLine;
+    private TextMeshPro distText;
     private bool isDragging = false;
+
+    // Variáveis do Modo Área
+    private List<GameObject> areaPoints = new List<GameObject>();
+    private LineRenderer polygonLine;
+    private TextMeshPro areaLabel;
 
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-        if (clearButton != null)
-            clearButton.onClick.AddListener(ClearAll);
+        mainCamera = Camera.main;
+
+        if (clearButton != null) clearButton.onClick.AddListener(ClearAll);
+        if (distanceModeButton != null) distanceModeButton.onClick.AddListener(() => SetMode(MeasurementMode.Distancia));
+        if (areaModeButton != null) areaModeButton.onClick.AddListener(() => SetMode(MeasurementMode.Area));
+
+        UpdateUI();
+    }
+
+    public void SetMode(MeasurementMode mode)
+    {
+        currentMode = mode;
+        ClearAll();
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        if (modeIndicatorText != null)
+            modeIndicatorText.text = "Modo: " + (currentMode == MeasurementMode.Distancia ? "Régua" : "Área");
     }
 
     void Update()
     {
         var pointer = Pointer.current;
         if (pointer == null) return;
+        if (EventSystem.current.IsPointerOverGameObject(pointer.deviceId)) return;
 
-        Vector2 touchPosition = pointer.position.ReadValue();
+        Vector2 touchPos = pointer.position.ReadValue();
 
-        //if (EventSystem.current.IsPointerOverGameObject(pointer.deviceId))
-        //{
-           // return;
-       // }
+        if (currentMode == MeasurementMode.Distancia) HandleDistance(pointer, touchPos);
+        else HandleArea(pointer, touchPos);
+    }
 
-        // 1. COMEÇO DO TOQUE: Cria a estrutura da medição
+    // --- MODO DISTÂNCIA: MANTÉM A MEDIDA NA LINHA ---
+    void HandleDistance(Pointer pointer, Vector2 touchPos)
+    {
         if (pointer.press.wasPressedThisFrame)
         {
-            if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
+            if (raycastManager.Raycast(touchPos, hits, TrackableType.PlaneWithinPolygon))
             {
-                Pose hitPose = hits[0].pose;
-                StartLine(hitPose.position);
+                Vector3 pos = hits[0].pose.position;
+                distStartPoint = Instantiate(measurementPointPrefab, pos, Quaternion.identity);
+                distEndPoint = Instantiate(measurementPointPrefab, pos, Quaternion.identity);
+
+                GameObject lObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
+                distLine = lObj.GetComponent<LineRenderer>();
+                distText = lObj.GetComponentInChildren<TextMeshPro>();
+
+                allObjects.AddRange(new List<GameObject> { distStartPoint, distEndPoint, lObj });
                 isDragging = true;
             }
         }
 
-        // 2. ARRASTANDO: Atualiza o ponto final e a linha
         if (pointer.press.isPressed && isDragging)
         {
-            if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
+            if (raycastManager.Raycast(touchPos, hits, TrackableType.PlaneWithinPolygon))
             {
-                UpdateLine(hits[0].pose.position);
+                Vector3 currentPos = hits[0].pose.position;
+                distEndPoint.transform.position = currentPos;
+
+                // Atualiza a linha visual
+                distLine.SetPosition(0, distStartPoint.transform.position);
+                distLine.SetPosition(1, distEndPoint.transform.position);
+
+                // ATUALIZA O TEXTO DE DISTÂNCIA (CM)
+                float distance = Vector3.Distance(distStartPoint.transform.position, distEndPoint.transform.position);
+                distText.text = $"{(distance * measurementFactor):F1} cm";
+
+                // Posiciona o texto no meio da linha
+                distText.transform.position = (distStartPoint.transform.position + distEndPoint.transform.position) / 2 + offsetMeasurement;
+                RotateText(distText);
             }
         }
 
-        // 3. SOLTOU: Finaliza essa medição e permite a próxima
-        if (pointer.press.wasReleasedThisFrame)
+        if (pointer.press.wasReleasedThisFrame) isDragging = false;
+    }
+
+    // --- MODO ÁREA: APENAS ÁREA TOTAL NO CENTRO ---
+    void HandleArea(Pointer pointer, Vector2 touchPos)
+    {
+        if (pointer.press.wasPressedThisFrame)
         {
-            isDragging = false;
-        }
-    }
-
-    void StartLine(Vector3 position)
-    {
-        // Cria os pontos
-        currentStartPoint = Instantiate(measurementPointPrefab, position, Quaternion.identity);
-        currentEndPoint = Instantiate(measurementPointPrefab, position, Quaternion.identity);
-
-        // Cria a linha (use um prefab que já tenha LineRenderer e TextMeshPro para facilitar)
-        GameObject lineObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
-        currentLine = lineObj.GetComponent<LineRenderer>();
-        currentText = lineObj.GetComponentInChildren<TextMeshPro>();
-
-        // Salva na lista para o botão "Limpar"
-        allObjects.Add(currentStartPoint);
-        allObjects.Add(currentEndPoint);
-        allObjects.Add(lineObj);
-    }
-
-    void UpdateLine(Vector3 position)
-    {
-        currentEndPoint.transform.position = position;
-
-        currentLine.SetPosition(0, currentStartPoint.transform.position);
-        currentLine.SetPosition(1, currentEndPoint.transform.position);
-
-        float distance = Vector3.Distance(currentStartPoint.transform.position, currentEndPoint.transform.position);
-        currentText.text = $"{(distance * measurementFactor).ToString("F2")} cm";
-
-        // Centraliza o texto entre os dois pontos
-        currentText.transform.position = (currentStartPoint.transform.position + currentEndPoint.transform.position) / 2 + offsetMeasurement;
-
-        // Faz o texto olhar para a câmera (Billboard)
-        currentText.transform.LookAt(Camera.main.transform);
-        currentText.transform.Rotate(0, 180, 0);
-    }
-
-
-public void ClearAll()
-    {
-        Debug.Log("Botão Limpar clicado! Tentando apagar " + allObjects.Count + " objetos.");
-
-        foreach (var obj in allObjects)
-        {
-            if (obj != null)
+            if (raycastManager.Raycast(touchPos, hits, TrackableType.PlaneWithinPolygon))
             {
-                Destroy(obj);
+                Vector3 pos = hits[0].pose.position;
+                GameObject pObj = Instantiate(measurementPointPrefab, pos, Quaternion.identity);
+                areaPoints.Add(pObj);
+                allObjects.Add(pObj);
+
+                if (areaPoints.Count == 1)
+                {
+                    GameObject lObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
+                    polygonLine = lObj.GetComponent<LineRenderer>();
+                    polygonLine.loop = true;
+                    areaLabel = lObj.GetComponentInChildren<TextMeshPro>();
+                    areaLabel.text = ""; // Fica vazio até ter 3 pontos
+                    allObjects.Add(lObj);
+                }
+                UpdateAreaVisuals();
             }
         }
+    }
+
+    void UpdateAreaVisuals()
+    {
+        if (areaPoints.Count < 2) return;
+
+        polygonLine.positionCount = areaPoints.Count;
+        Vector3 center = Vector3.zero;
+
+        for (int i = 0; i < areaPoints.Count; i++)
+        {
+            Vector3 pPos = areaPoints[i].transform.position;
+            polygonLine.SetPosition(i, pPos);
+            center += pPos;
+        }
+
+        if (areaPoints.Count >= 3)
+        {
+            float area = CalculateArea();
+            areaLabel.text = string.Format("A: {0:F2} m2", area);
+
+            // Texto no centro do polígono
+            areaLabel.transform.position = (center / areaPoints.Count) + (offsetMeasurement * 1.5f);
+            RotateText(areaLabel);
+        }
+    }
+
+    float CalculateArea()
+    {
+        float area = 0;
+        for (int i = 0; i < areaPoints.Count; i++)
+        {
+            Vector3 cur = areaPoints[i].transform.position;
+            Vector3 next = areaPoints[(i + 1) % areaPoints.Count].transform.position;
+            area += (cur.x * next.z) - (next.x * cur.z);
+        }
+        return Mathf.Abs(area) / 2.0f;
+    }
+
+    void RotateText(TextMeshPro text)
+    {
+        if (text == null) return;
+        text.transform.rotation = Quaternion.LookRotation(text.transform.position - mainCamera.transform.position);
+    }
+
+    public void ClearAll()
+    {
+        foreach (var obj in allObjects) if (obj != null) Destroy(obj);
         allObjects.Clear();
-        Debug.Log("Lista limpa com sucesso.");
+        areaPoints.Clear();
+        polygonLine = null;
+        areaLabel = null;
+        isDragging = false;
     }
 }
